@@ -843,6 +843,19 @@ a:focus {
 .nav>li>a:focus {
     background-color: transparent
 }
+.profile.nav.navbar-nav>li>a {
+    color: #515356 !important
+}
+.profile.nav.top_menu>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #34495E !important
+}
+.profile.nav>li>a:hover,
+.profile.nav>li>a:focus {
+    background-color: transparent
+}
 .top_search {
     padding: 0
 }

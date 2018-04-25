@@ -2,7 +2,7 @@
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
             <a href="{{ url('/home') }}" class="site_title">
-            <img src="{{ asset("images/SELCOM-01.png") }}" /> </a>
+            <img src="{{ asset("images/SELCOM-01.png") }}"  style="width: 60%; margin-top: -5px;"/> </a>
         </div>
         
         <div class="clearfix"></div>
@@ -10,7 +10,7 @@
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="{{ Gravatar::src(Auth::user()->email) }}" alt="Avatar of {{ Auth::user()->name }}" class="img-circle profile_img">
+                <img src="images/user.png" class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
@@ -18,8 +18,9 @@
             </div>
         </div>
         <!-- /menu profile quick info -->
-        
-        <br />
+        <div class="clearfix"></div>
+        <br>
+        <div class="clearfix"></div>
         
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">

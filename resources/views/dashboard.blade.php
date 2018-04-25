@@ -16,7 +16,7 @@
         <!-- Font Awesome -->
         <link href="{{ asset("vendors/font-awesome/css/font-awesome.min.css") }}" rel="stylesheet">
         <!-- Custom Theme Style -->
-        <link href="{{ asset("vendors/gentelella/css/gentelella.css") }}" rel="stylesheet">
+        <link href="{{ asset("vendors/gentelella/css/gentelella.min.css") }}" rel="stylesheet">
 
         @stack('stylesheets')
 
@@ -30,7 +30,7 @@
 
                 @include('includes/topbar')
 
-                @yield('content')
+                @yield('main_container')
 
                 @include('includes/footer')
 
@@ -38,7 +38,7 @@
         </div>
 
         <!-- jQuery -->
-        <script src="{{ asset("vendors/jquery/dist/jquery.min.js") }}"></script>
+        <script src="{{ asset("vendors/jquery/dist/jquery.js") }}"></script>
         <!-- Bootstrap -->
         <script src="{{ asset("vendors/bootstrap/dist/js/bootstrap.min.js") }}"></script>
         <!-- Custom Theme Scripts -->
