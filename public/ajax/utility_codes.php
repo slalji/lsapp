@@ -1,5 +1,5 @@
 <?php
-include "../config.php";
+include "config.php";
 
 $sql = "SELECT DISTINCT utility_code FROM `transactions` WHERE 1";
 

@@ -45,8 +45,7 @@ Route::post('/registrate', ['uses' => 'Registration\RegistrationController@proce
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'PagesController@home');
+Route::get('/tiles', 'PagesController@tiles');
+Route::get('/utilities', 'PagesController@utilities');

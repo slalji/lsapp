@@ -1,5 +1,5 @@
 <?php
-include "../config.php";
+include "config.php";
 
 
 // storing  request (ie, get/post) global array to a variable

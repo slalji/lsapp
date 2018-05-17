@@ -4,13 +4,9 @@
  
 <!-- page content -->
 <div class="right_col" role="main">
-    @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
-
+    
     You are logged in!
+    session_status: 
 </div>
 <!-- /page content -->
 @endsection

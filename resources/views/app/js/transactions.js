@@ -4,7 +4,8 @@ $( document ).ready(function() {
    //$('#dataTables_filter').hide();
    $('#thismonth').html(moment().format('MMMM'));
    var month = moment().format('M');  
-    $('#month').prop('selectedIndex',month);  
+    $('#month').prop('selectedIndex',month);
+ 
  
 });
 
