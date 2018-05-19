@@ -18,7 +18,7 @@
         <!-- Custom Theme Style -->
         <link href="{{ asset("vendors/gentelella/css/gentelella.css") }}" rel="stylesheet">
         <link href="{{ asset("vendors/bootstrap-daterangepicker/daterangepicker.css")}}" rel="stylesheet" >
-        
+        <link href="{{ asset("vendors/custom/custom.css") }}" rel="stylesheet">
 
         @stack('stylesheets')
 
@@ -39,7 +39,7 @@
                 <div class="right_col" role="main" style="min-height: 536px;">
 
                 @yield('content')
-</div>
+                </div>
                 @include('includes/footer')
 
             </div>

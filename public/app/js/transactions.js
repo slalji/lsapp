@@ -6,6 +6,36 @@ $( document ).ready(function() {
    var month = moment().format('M');  
     $('#month').prop('selectedIndex',month);  
  
+    $.ajax({
+        "url": "utility_codes", //PageController@utility_codes
+        type: "get",  
+        xcontentType: "application/json; charset=utf-8", 
+        xdatatype:"json",
+        "success": function(data) {
+            $("#utility_code").html( 
+                $("") 
+                   
+            );
+                  
+            if (!jQuery.isArray(data)) data = [data];
+            $.each(data, function (index, item) { 
+               // _html =+ '<option value='+item.utility_code+'>'+item.utility_code+'</option>';
+
+                //console.log(item.utility_code);
+                $("#utility_code").append( 
+                    $("<option></option>") 
+                        .text(item.utility_code)
+                        .val(item.utility_code)
+                );
+                 
+            });
+        
+        },
+        "error": function(res, status, xhr) {
+           alert('Err:' ); 
+        }
+       
+    });
 });
 
 $('#check-date').change(function(){
@@ -21,7 +51,7 @@ jQuery(function($) {
   
     //initiate dataTables plugin
     //var section = 'transactions';
-     var utility_code = 'SPCASHIN';
+    // var utility_code = 'SPCASHIN';
      //var cols= 'fullname,  address, utility_type, amount,utility_reference, msisdn, reference, transid, result';
 
     var myTable =
@@ -36,7 +66,7 @@ jQuery(function($) {
 
             bAutoWidth: false,
             ajax: {
-                url: "ajax/initServerSide.php", // json datasource
+                url: "initServerSide", // json datasource
                 //data: {utility_code: utility_code, cols: cols},
                 type: "post"  // method  , by default get
 
@@ -233,7 +263,7 @@ jQuery(function($) {
           
             MyTimestamp = new Date().getTime(); // Meant to be global var
             $.ajax({
-             "url": " ajax/download.php",
+             "url": "download.php",
              type: "post",
              "data": {fulltimestamp:$('#date-text').html(), utility_code:$('#utility_code').val(), download:'yes' },
              beforeSend: function() {

@@ -113,9 +113,7 @@
                           <label for="utility_code">Utility Code</label>
                           <select type="text" name="utility_code" id="utility_code" value="" class="form-control" >
                           <option value="">Loading ...</option>
-                         @foreach($utility_codes as $code)
-                         <option value="{{$code}}">{{$code}}</option>
-                         @endforeach
+                        
                           </select>
                         </div>
 

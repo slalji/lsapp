@@ -5,7 +5,20 @@ $( document ).ready(function() {
    $('#thismonth').html(moment().format('MMMM'));
    var month = moment().format('M');  
     $('#month').prop('selectedIndex',month);
- 
+
+    $.ajax({
+        "url": " /utility_codes",
+        type: "get",   
+        "success": function(res, status, xhr) {
+          $('#loading').html('');
+           var _html = JSON.stringify(xhr);// document.location.href ="ajax/download.php";
+           $('#utility_code').html(_html);    
+        },
+        "error": function(res, status, xhr) {
+           alert('Err:' ); 
+        }
+       
+    }); 
  
 });
 
