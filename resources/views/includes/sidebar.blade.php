@@ -2,7 +2,7 @@
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
             <a href="{{ url('/home') }}" class="site_title">
-            <img src="{{ asset("images/SELCOM-01.png") }}"  style="width: 60%; margin-top: -5px;"/> </a>
+            <img src="{{ asset("images/NBC BANK TANZANIA.jpg") }}"  style="height: 95%; margin-top: -5px;"/> </a>
         </div>
         
         <div class="clearfix"></div>
@@ -33,7 +33,7 @@
                             <li><a href="index.php?page=transactions">Dashboard</a></li>
                         </ul>
                     </li>
-                    <li><a><i class="fa fa-bar-chart-o"></i> Comparison Report <span class="fa fa-chevron-down"></span></a>                  
+                   <!-- <li><a><i class="fa fa-bar-chart-o"></i> Comparison Report <span class="fa fa-chevron-down"></span></a>                  
                     <ul class="nav child_menu">
                       <li><a href="index.php?page=transactions">Datewise</a></li>
                       <li><a href="index.php?page=comparisons">Individual Utils</a></li>
@@ -61,7 +61,7 @@
                     -->
                 </ul>
             </div>
-            <div class="menu_section">
+           <!-- <div class="menu_section">
                 <h3>Utilities</h3>
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-home"></i> Builder <span class="fa fa-chevron-down"></span></a>
@@ -125,7 +125,7 @@
             <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ url('/logout') }}">
+            <a data-toggle="tooltip" data-placement="top" title="Logout" href='auth/logout'">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
         </div>

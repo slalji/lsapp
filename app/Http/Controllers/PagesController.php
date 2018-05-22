@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Response;
+use League\Flysystem\Filesystem;
 
 class PagesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     function home(){
         return view('home');
     }
+    
     function dashboard(){
          
             $currentMonth = date('m');
@@ -25,27 +31,7 @@ class PagesController extends Controller
         
             return view('dashboard', compact('tiles'));
     }
-    function tiles(){
-        $currentMonth = date('m');
-            //$tiles = DB::table('transactions')->get();
-            $tiles = DB::table('transactions')
-                         ->select(DB::raw('utility_code, format(sum(amount),0) as amnt, count(amount) as cnt'))
-                         ->where( 'type', '=', 'DEBIT')
-                         ->whereMonth('fulltimestamp','=','03')
-                         ->groupBy('utility_code')
-                         ->orderBy('cnt','desc')->take(6)
-                         ->get();
 
-            return $tiles;
-    }
-    function utility_codes(){
-        $utility_codes = DB::table('transactions')
-            ->select(DB::raw('utility_code'))           
-            ->groupBy('utility_code')
-            ->orderBy('utility_code')        
-            ->get();
-            return $utility_codes;
-    }
     function init_nbc(Request $request){
         $transactions = DB::table('transactions')
         ->join('members', 'members.id', '=', 'transactions.id')        
@@ -135,55 +121,58 @@ class PagesController extends Controller
     }
     function download_nbc(Request $request){
     
-   
-    $sql = "SELECT transactions.id, fulltimestamp, terminal, members.fullname, members.ip_address, utility_type, amount,utility_reference, msisdn, reference, transid, result, message from transactions join members on members.id = transactions.id  ";
-    $where = ' WHERE transactions.id = members.id' ;
-    
-    if (isset($request->fulltimestamp)){
-        $fulltimestamp = $request->fulltimestamp;
-        $range = explode('|',$fulltimestamp);		
-        $start = trim($range[0]); //name
-        $end = trim($range[1]); //name
-        $where.=" AND fulltimestamp >= '".$start."' AND fulltimestamp < ('" .$end. "' + INTERVAL 1 DAY) ";
-    }
-    
-    else if (isset($request->transid)){
-        $transid = $request->transid;
-        $where.=" AND (transid like '%" . $transid ."%' or reference like '%".$transid."%') ";
-    }		
-    else if (isset($request->util_ref)){
-        $util_ref = $request->util_ref;
-        $where.=" AND utility_reference like '%" . $util_ref ."%'" ;
-    }
-    else if (isset($request->result)){
-        $result = $request->result;
-        $where.=" AND result like '%" . $result ."%'" ;
-    }
-    
-       $sql .= $where;   
-     
        
-    $sql.= " ORDER BY fulltimestamp   desc";
+        $sql = "SELECT transactions.id, fulltimestamp, terminal, members.fullname, members.ip_address, utility_type, amount,utility_reference, msisdn, reference, transid, result, message from transactions join members on members.id = transactions.id  ";
+        $where = ' WHERE transactions.id = members.id' ;
+        
+       if (isset($request->fulltimestamp)){
+            $fulltimestamp = $request->fulltimestamp;
+            $range = explode('|',$fulltimestamp);		
+            $start = trim($range[0]); //name
+            $end = trim($range[1]); //name
+            $where.=" AND fulltimestamp >= '".$start."' AND fulltimestamp < ('" .$end. "' + INTERVAL 1 DAY) ";
+        }
+        
+        //if (isset($request->transid)){
+            $transid = $request->transid;
+            $where.=" AND (transid like '%" . $transid ."%' or reference like '%".$transid."%') ";
+        //}		
+       // if (isset($request->util_ref)){
+            $util_ref = $request->util_ref;
+            $where.=" AND utility_reference like '%" . $util_ref ."%'" ;
+        //}
+        //if (isset($request->result)){
+            $result = $request->result;
+            $where.=" AND result like '%" . $result ."%'" ;
+       // }
+        
+        $sql .= $where;   
+        
+        
+        $sql.= " ORDER BY fulltimestamp desc";
+        DB::enableQueryLog();
+            $transactions = DB::select( DB::raw($sql) );
+        DB::getQueryLog();
+        //$columns = DB::getSchemaBuilder()->getColumnListing('transactions');
+        $columns = ["transactions.id", "fulltimestamp", "terminal", "fullname","ip_address", "utility_type", "amount","utility_reference", "msisdn", "reference", "transid", "result", "message"];
+        
+        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+       
+        $csv->insertOne($columns);
     
-    $results = DB::select( DB::raw($sql) );
-    $transactions = json_decode(json_encode($results), true);
      
-    $col_names = DB::getSchemaBuilder()->getColumnListing('transactions');
-     
-    $headers = array(
-        'Content-Type' => 'text/csv',
-        'Content-Disposition' => 'attachment; filename="ExportFileName.csv"',
-        'Cache-control'=> 'private',
-        'Content-type'=> 'application/force-download',
-        'Content-transfer-encoding' =>'binary\n',
-    );
-    $file = fopen('php://output', 'w');
-    fputcsv($file, $col_names);
-    foreach ($transactions as $row) {
-        fputcsv($file, $row);
+
+    foreach($transactions as $row) {
+        $arr = array();
+        foreach ($row as $key => $val)
+            $arr[] = $val;
+        $csv->insertOne($arr);
     }
-    fclose($file);
-    return response()->download('ExportFileName.csv', 'file '.date("d-m-Y H:i").'.csv', $headers);
- }
+
+    $csv->output('download_nbc.csv');
+  
+
+}
+   
 }
 

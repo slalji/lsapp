@@ -817,7 +817,7 @@ function init_IonRangeSlider() {
 	}
 	))
 }
-
+/*
 function init_daterangepicker() {
 	if("undefined"!=typeof $.fn.daterangepicker) {
 			console.log("init_daterangepicker");
@@ -1023,7 +1023,7 @@ function init_daterangepicker_reservation() {
 	}
 	))
 }
-
+*/
 function init_SmartWizard() {
 	"undefined"!=typeof $.fn.smartWizard&&(console.log("init_SmartWizard"),
 	$("#wizard").smartWizard(),

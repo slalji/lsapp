@@ -67,6 +67,7 @@
 
                 <div class="col-xs-12 col-sm-6">
                   <form id="theForm">
+                  <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                         <div class="form-group">
                           <b>Date Range</b> <input type=checkbox name="check-date" id="check-date" >
                           <div id="transdate"  style="border-radus:5px ;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; xwidth: 30%"> <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span id="date-text"></span> <b class="caret"></b></div>
@@ -93,8 +94,8 @@
                             </div>
                           </div>
                         </div>
-<br><br><br>
-<div class="form-group">
+                        <br><br><br>
+                        <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Download</label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
                             <div id="isdownload" class="btn-group" data-toggle="buttons">

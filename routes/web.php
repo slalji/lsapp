@@ -47,7 +47,11 @@ Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home', 'PagesController@home');
-Route::get('/tiles', 'PagesController@tiles');
-Route::get('/utility_codes', 'PagesController@utility_codes');
+Route::get('/changePassword','HomeController@showChangePasswordForm');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 Route::get('/init_nbc', 'PagesController@init_nbc');
 Route::post('/download_nbc', 'PagesController@download_nbc');
+
+
+
+

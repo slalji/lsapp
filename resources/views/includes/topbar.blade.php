@@ -25,6 +25,12 @@
                                         @csrf
                                     </form>
                                     </li>
+                        </li>
+                        <li>
+                            <a href="changePassword">
+                            Change Password
+                            </a>
+                        </li>
                         @endguest
                     </ul>
         </nav>

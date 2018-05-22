@@ -284,65 +284,72 @@ $( document ).ready(function() {
      });
   
      $('#save').on('click', function(){
-         var param = {};
-         
-         if($("#check-date").prop("checked")) {
-             param= 'fulltimestamp:'+$('#date-text').html();
-           } 
-         else {
-             param= 'fulltimestamp:';
-           }
-       
-          
-          
-          param+= '& utility_reference:'+$('#utility_ref').val();          
-          param+= '& transid:'+$('#transid').val();   
-          //param+= '& result:'+$('#result').val();
-          param+= '& result:'+$('#isresult input:radio:checked').val();
-          param+= '& download:'+$('#isdownload input:radio:checked').val();
-             
-         
-          //send to datatables server side     
-         myTable.columns(0).search(param).draw();
-         
-         $('#myModal').attr('data-dismiss','modal'); 
-         $('#myModal').modal('hide');
- 
-         if ($('#isdownload input:radio:checked').val() == 'yes'){
-           
-             MyTimestamp = new Date().getTime(); // Meant to be global var
-             $.ajax({
-              "url": "download_nbc",
-              type: "post",
-              "data": {fulltimestamp:$('#date-text').html(), util_ref:$('#utility_ref').val(), transid:$('#transid').val(),result:$('#result').val(),download:'yes' },
-              beforeSend: function() {
-                 // setting a timeout
-                 $('#loading').html('loading...');
-                 //document.location.href ="ajax/download.php";
-             },
-              "success": function(res, status, xhr) {
-                $('#loading').html('');
-                 // document.location.href ="ajax/download.php";
-                 var csvData = new Blob([res], {type: 'text/csv;charset=utf-8;'});
-                             var csvURL = window.URL.createObjectURL(csvData);
-                             var tempLink = document.createElement('a');
-                             tempLink.href = csvURL;
-                             tempLink.setAttribute('download', 'export.csv');
-                             tempLink.click();
-                             
-              },
-              "error": function(xhr) {
-                 alert('Err:' ); 
-                 console.log(xhr)
-              }
-             
-          }); 
-          //alert();
+        var param = {};
+        var dates='';
+        
+        if($("#check-date").prop("checked")) {
+            param= 'fulltimestamp:'+$('#date-text').html();
+            dates=$('#date-text').html();
+          } 
+        else {
+            param= 'fulltimestamp:';
           }
-          
-     
+      
          
-     });
+         
+         param+= '& utility_reference:'+$('#utility_ref').val();          
+         param+= '& transid:'+$('#transid').val();   
+         //param+= '& result:'+$('#result').val();
+         param+= '& result:'+$('#isresult input:radio:checked').val();
+         param+= '& download:'+$('#isdownload input:radio:checked').val();
+            
+        console.log(param);
+         //send to datatables server side     
+        myTable.columns(0).search(param).draw();
+        
+        $('#myModal').attr('data-dismiss','modal'); 
+        $('#myModal').modal('hide');
+
+        if ($('#isdownload input:radio:checked').val() == 'yes'){
+          
+            MyTimestamp = new Date().getTime(); // Meant to be global var
+            $.ajax({
+             "url": " download_nbc",
+             type: "post",
+            // "data":param, //doesnt work
+            
+             "data": { "_token": $('#token').val(),fulltimestamp:dates, util_ref:$('#utility_ref').val(), transid:$('#transid').val(),result:$('#result').val(),download:'yes' },
+             beforeSend: function() {
+                // setting a timeout
+                $('#loading').html('<label class="alert alert-danger" xstyle="padding:10px; border:1px red solid; color:red">downloading...</label>');
+                //document.location.href ="ajax/download.php";
+            },
+             "success": function(res, status, xhr) {
+               $('#loading').html('');
+                // document.location.href ="ajax/download.php";
+                var csvData = new Blob([res], {type: 'text/csv;charset=utf-8;'});
+                            var csvURL = window.URL.createObjectURL(csvData);
+                            var tempLink = document.createElement('a');
+                            tempLink.href = csvURL;
+                            tempLink.setAttribute('download', 'export.csv');
+                            tempLink.click();
+                            
+             },
+             "error": function(res, status, xhr) {
+                $('#loading').html('');
+                alert('Err:' ); 
+                console.log(res);
+               
+             }
+            
+         }); 
+         //alert();
+         }
+         
+    
+        
+    });
+   
     
  
     
