@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Role;
+use App\PasswordHistory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.
@@ -37,7 +39,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -51,7 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6||regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/|
+            'password' => 'required|string|min:6|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|
             confirmed',
         ]);
     }
@@ -64,17 +66,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
- 
+      
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+        $user->save();
+        $user->roles()->attach(Role::where('name','User')->first());
+        
 
-        $ph = new PasswordHistory;
-        $ph->user_id = $user->id;
-        $ph->password = bcrypt($data['password']);
-        $ph->save();      
+        $passwordHistory = PasswordHistory::create([
+            'user_id' => $user->id,
+             'password' => bcrypt($data['password']),
+        ]);
+        $passwordHistory->save();  
+        
+        
  
         return $user;
     }

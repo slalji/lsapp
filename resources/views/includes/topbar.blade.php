@@ -9,9 +9,22 @@
            
             <ul class="profile nav navbar-nav navbar-right ml-auto">
                         <!-- Authentication Links -->
-                        @guest
+                        @if (Auth::guest())
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                        @elseif (!Auth::guest() && Auth::user()->hasRole('Admin'))
+                        <li><a class="dropdown-item" href="{{ route('admin') }}">Admin</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    </li>
+                        </li>
+                        
                         @else
                         
                         <li><a class="dropdown-item" href="">Settings</a></li>
@@ -31,7 +44,7 @@
                             Change Password
                             </a>
                         </li>
-                        @endguest
+                        @endif
                     </ul>
         </nav>
     </div>
