@@ -25,16 +25,18 @@ class AuthController extends Controller
         Auth::login($user);
         return redirect()->route('admin');
     }
-    public function postSignIn(Request $request)
+   /* public function postSignIn(Request $request)
     {
         if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
             return redirect()->route('main');
         }
         return redirect()->back();
     }
+    */
     public function getLogout()
     {
         Auth::logout();
-        return redirect()->route('main');
+        return redirect()->route('login');
     }
+    
 }

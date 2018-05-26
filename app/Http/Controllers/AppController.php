@@ -10,8 +10,14 @@ class AppController extends Controller
     public function getIndex()
     {
         $users = User::all();
-        
+        if ($users)
         return view('home', ['users' => $users]);
+        else{
+            Auth::logout();
+        return redirect()->route('auth.login');
+        }
+            
+        
         //return view('index');
     }
     
@@ -32,7 +38,9 @@ class AppController extends Controller
     public function postAdminAssignRoles(Request $request)
     {
         $user = User::where('email', $request['email'])->first();
-        $user->roles()->detach();
+         $user->roles()->detach();
+         
+        
         if ($request['role_user']) {
             $user->roles()->attach(Role::where('name', 'User')->first());
         }

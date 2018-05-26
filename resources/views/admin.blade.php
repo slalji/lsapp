@@ -1,22 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.blank')
 
 @section('content')
+
+<h3>NBC Agency Transactions Admin</h3>
     <table class="table table-stripped">
         <thead>
-        <th> </th>
+        
         <th>Name</th>       
         <th>E-Mail</th>   
         <th>User</th>
         <th>Author</th>
         <th>Admin</th>
-        <th><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></th>
+        <th> </th>
+        <th> <a class="btn btn-primary" type=submit href="{{ route('register') }}">{{ __('Create User') }}</a></th>
         </thead>
         <tbody>
-      
         @foreach($users as $user)
             <tr>
                 <form action="{{ route('admin.assign') }}" method="post">
-                    <td>{{ $user->name }}</td>                   
+                    <td>{{ $user->name }}</td>
+                    
                     <td>{{ $user->email }} <input type="hidden" name="email" value="{{ $user->email }}"></td>
                     <td><input type="checkbox" {{ $user->hasRole('User') ? 'checked' : '' }} name="role_user"></td>
                     <td><input type="checkbox" {{ $user->hasRole('Author') ? 'checked' : '' }} name="role_author"></td>

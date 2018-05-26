@@ -15,7 +15,7 @@
             <div class="profile_info">
                 <span>Welcome,</span>
                
-                <h2>{{ Auth::user()->name }}</h2>
+                <h2>{{  Auth::user()->name }}</h2>
             </div>
         </div>
         <!-- /menu profile quick info -->
@@ -28,10 +28,8 @@
             <div class="menu_section">
                 <h3>Reports</h3>
                 <ul class="nav side-menu">
-                    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="index.php?page=transactions">Dashboard</a></li>
-                        </ul>
+                    <li><a href="home"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                        
                     </li>
                    <!-- <li><a><i class="fa fa-bar-chart-o"></i> Comparison Report <span class="fa fa-chevron-down"></span></a>                  
                     <ul class="nav child_menu">

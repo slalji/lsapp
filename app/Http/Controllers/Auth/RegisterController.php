@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Auth;
+use App\Notifications\UserRegisteredNotification;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -30,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    //protected $redirectTo = '/admin';
+    protected $redirectTo = 'admin';
 
     /**
      * Create a new controller instance.
@@ -62,11 +65,11 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     
      */
     protected function create(array $data)
     {
-      
+        $this->redirectTo = 'admin';
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -81,12 +84,23 @@ class RegisterController extends Controller
              'password' => bcrypt($data['password']),
         ]);
         $passwordHistory->save();  
-        
-        
- 
-        return $user;
+               
     }
- 
+     
+    //create a new method that overrides default register, use this create function to add users 
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event($user = $this->create($request->all()));
+
+       // $this->guard()->login($user);
+    //this commented to avoid register user being auto logged in
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
 
     
 }

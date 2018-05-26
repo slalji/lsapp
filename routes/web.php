@@ -55,14 +55,18 @@ Route::get('/init_nbc', 'PagesController@init_nbc');
 Route::post('/download_nbc', 'PagesController@download_nbc');
 
 */
-
+Route::get('/home', 'PagesController@home');
+Route::get('/changePassword','HomeController@showChangePasswordForm');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
+Route::get('/init_nbc', 'PagesController@init_nbc');
+Route::post('/download_nbc', 'PagesController@download_nbc');
 
 Route::group(['middleware' => 'web'], function () {
     Auth::routes();
 
     Route::get('/', function () {
               
-        return view('welcome');
+        return view('auth.login');
     })->name('main');
 
     Route::get('/author', [
@@ -77,12 +81,13 @@ Route::group(['middleware' => 'web'], function () {
         'middleware' => 'roles',
         'roles' => ['Author']
     ]);
-    Route::get('/home', [
+    /*Route::get('/home', [
         'uses' => 'AppController@getIndex',
-        'as' => 'user'/*,
+        'as' => 'user' ,
         'middleware' => 'roles',
-        'roles' => ['Admin']*/
+        'roles' => ['User', 'Admin', 'Author'] 
     ]);
+    */
     Route::get('/admin', [
         'uses' => 'AppController@getAdminPage',
         'as' => 'admin',
