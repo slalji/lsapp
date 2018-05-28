@@ -44,8 +44,19 @@ class LoginController extends Controller
     {
         if($user->hasRole('admin')){
             return redirect('admin');
-        }else{
+        }
+        else if ($user->firsttime == '0')
+            return redirect('changePassword');
+        else{
             return redirect('home');
         }
+    }
+    public function authenticateEmail($token)
+    {
+        $emailLogin = EmailLogin::validFromToken($token);
+
+        Auth::changepassword($emailLogin->user);
+
+        return redirect('auth.changepassword');
     }
 }

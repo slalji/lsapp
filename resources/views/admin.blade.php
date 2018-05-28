@@ -3,6 +3,11 @@
 @section('content')
 
 <h3>NBC Agency Transactions Admin</h3>
+ @if (session('status'))
+    <div class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif 
     <table class="table table-stripped">
         <thead>
         
@@ -14,6 +19,7 @@
         <th> </th>
         <th> <a class="btn btn-primary" type=submit href="{{ route('register') }}">{{ __('Create User') }}</a></th>
         </thead>
+        
         <tbody>
         @foreach($users as $user)
             <tr>

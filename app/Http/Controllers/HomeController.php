@@ -25,7 +25,12 @@ class HomeController extends Controller
     {
         if (Auth::user)
             return view('home');
-        else
-            return view('auth.login');
+   
+    }
+    public function authenticateEmail($token)
+    {
+        $emailLogin = EmailLogin::validFromToken($token);
+
+        return $emailLogin;//view('auth.changepassword');
     }
 }

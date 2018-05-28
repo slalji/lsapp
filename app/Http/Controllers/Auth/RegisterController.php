@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Role;
-use App\PasswordHistory;
+use App\EmailLogin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +12,9 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Auth;
 use App\Notifications\UserRegisteredNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Mail\verifyEmail;
 
 class RegisterController extends Controller
 {
@@ -56,8 +59,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|
-            confirmed',
+           // 'password' => 'required|string|min:6|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|
+            //confirmed',
         ]);
     }
 
@@ -70,20 +73,20 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $this->redirectTo = 'admin';
+
+        //generate a password for the new users
+       $pw = User::generateRandom(8);
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' =>  bcrypt($pw), //bcrypt($data['password']),
+            'verify_token' => Str::random(40),
         ]);
         $user->save();
-        $user->roles()->attach(Role::where('name','User')->first());
-        
-
-        $passwordHistory = PasswordHistory::create([
-            'user_id' => $user->id,
-             'password' => bcrypt($data['password']),
-        ]);
-        $passwordHistory->save();  
+        //$user->roles()->attach(Role::where('name','User')->first());
+        $thisuser = User::findorfail($user->id);       
+        $this->sendRegisterEmail($thisuser, $pw);       
                
     }
      
@@ -97,10 +100,31 @@ class RegisterController extends Controller
 
        // $this->guard()->login($user);
     //this commented to avoid register user being auto logged in
-
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+        return redirect(route('admin'));
+         //return $this->registered($request, $user)
+            //?: redirect($this->redirectPath());
     }
+  
 
+    public function sendRegisterEmail(User $user, $pw)
+    {
+       
+       Mail::to($user['email'])->send(new verifyEmail($user, $pw)) ;//verifyEmail is in Mail folder
+
+      
+}
+public function sendEmailDone($email, $verify_token){
+    $user = User::where(['email' => $email, 'verify_token' => $verify_token])->first();
+    if ($user){
+
+       User::where(['email' => $email, 'verify_token' => $verify_token])->update(['status'=>'1','verify_token' =>NULL]);
+      
+       $this->guard()->login($user);
+       return redirect('auth.changepassword');
+
+    }
+    else
+        return 'user not found';
+}
     
 }

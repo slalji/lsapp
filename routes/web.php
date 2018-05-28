@@ -56,7 +56,8 @@ Route::post('/download_nbc', 'PagesController@download_nbc');
 
 */
 Route::get('/home', 'PagesController@home');
-Route::get('/changePassword','HomeController@showChangePasswordForm');
+Route::get('/changePassword','Auth\ResetPasswordController@showChangePasswordForm');
+Route::get('/firstlogin','Auth\ResetPasswordController@showFirstLoginForm');
 Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 Route::get('/init_nbc', 'PagesController@init_nbc');
 Route::post('/download_nbc', 'PagesController@download_nbc');
@@ -131,5 +132,8 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'AuthController@getLogout',
         'as' => 'logout'
     ]);
-});
+    
+    });
+
+    Route::get('verify/{email}/{verify_token}','Auth\RegisterController@sendEmailDone')->name('sendEmailDone');
 
