@@ -58,10 +58,11 @@ class User extends Authenticatable
         }
         return false;
     }
-     public static function generateRandom()
+     public static function generateRandom($num)
     {
       // Generate random string and encrypt it. 
-      return (str_random(35));
+      return (str_random($num));
     }
+   
      
 }

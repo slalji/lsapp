@@ -84,7 +84,7 @@ class RegisterController extends Controller
             'verify_token' => Str::random(40),
         ]);
         $user->save();
-        //$user->roles()->attach(Role::where('name','User')->first());
+        $user->roles()->attach(Role::where('name','User')->first());
         $thisuser = User::findorfail($user->id);       
         $this->sendRegisterEmail($thisuser, $pw);       
                
@@ -112,19 +112,20 @@ class RegisterController extends Controller
        Mail::to($user['email'])->send(new verifyEmail($user, $pw)) ;//verifyEmail is in Mail folder
 
       
-}
-public function sendEmailDone($email, $verify_token){
-    $user = User::where(['email' => $email, 'verify_token' => $verify_token])->first();
-    if ($user){
-
-       User::where(['email' => $email, 'verify_token' => $verify_token])->update(['status'=>'1','verify_token' =>NULL]);
-      
-       $this->guard()->login($user);
-       return redirect('auth.changepassword');
-
     }
-    else
-        return 'user not found';
-}
+    public function sendEmailDone($email, $verify_token){
+        $user = User::where(['email' => $email, 'verify_token' => $verify_token])->first();
+        
+        if ($user){
+
+        User::where(['email' => $email, 'verify_token' => $verify_token])->update(['status'=>'1','verify_token' =>NULL]);
+        
+        return redirect('auth.changepassword');
+
+        }
+        else
+            return 'user not found';
+    }
+
     
 }

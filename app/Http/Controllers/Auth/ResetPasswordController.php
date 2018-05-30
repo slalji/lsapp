@@ -6,6 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\EmailLogin;
 use App\PasswordHistory;
+use Illuminate\Support\Facades\Hash;
+use DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Mail\ForgottenEmail;
+
  
 
 class ResetPasswordController extends Controller
@@ -48,7 +54,7 @@ class ResetPasswordController extends Controller
     }
     
     public function changePassword(Request $request){
-        $emailLogin = EmailLogin::validFromToken($token);
+       
 
         if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
             // The passwords matches
@@ -81,6 +87,7 @@ class ResetPasswordController extends Controller
         //Change Password
  
         $user->password = bcrypt($request->get('new-password'));
+        $user->firsttime = '1';
         $user->save();
  
         //entry into password history
@@ -95,7 +102,28 @@ class ResetPasswordController extends Controller
         return redirect()->back()->with("success","Password changed successfully !");
  
     }
-   
+    public function sendPasswordResetToken(Request $request)
+    {
+        $user = User::where ('email', $request->email)-first();
+        if ( !$user ) return redirect()->back()->withErrors(['error' => '404']);
+    
+        //create a new token to be sent to the user. 
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => str_random(60), //change 60 to any length you want
+            'created_at' => Carbon::now()
+        ]);
+    
+        $tokenData = DB::table('password_resets')
+        ->where('email', $request->email)->first();
+    
+       $token = $tokenData->token;
+       $email = $request->email; // or $email = $tokenData->email;
+    
+       //send email Mail::send...
+}
+    
+ 
 
 
 }

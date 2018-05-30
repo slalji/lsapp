@@ -2,7 +2,7 @@
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
             <a href="{{ url('/home') }}" class="site_title">
-            <img src="{{ asset("images/NBC BANK TANZANIA.jpg") }}"  style="height: 95%; margin-top: -5px;"/> </a>
+            <img src="{{ asset(getenv('LOGO_FILENAME')) }}"  style="height: 95%; margin-top: -5px;"/> {{ getenv('APP_NAME')}}</a>
         </div>
         
         <div class="clearfix"></div>
@@ -28,7 +28,7 @@
             <div class="menu_section">
                 <h3>Reports</h3>
                 <ul class="nav side-menu">
-                    <li><a href="home"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                    <li><a href="home"><i class="fa fa-home"></i> Home <!--<span class="fa fa-chevron-down"></span>--></a>
                         
                     </li>
                    <!-- <li><a><i class="fa fa-bar-chart-o"></i> Comparison Report <span class="fa fa-chevron-down"></span></a>                  
@@ -114,7 +114,7 @@
         
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-            <a data-toggle="tooltip" data-placement="top" title="Settings">
+            <a href="changePassword" data-toggle="tooltip" data-placement="top" title="Change Password">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </a>
             <a data-toggle="tooltip" data-placement="top" title="FullScreen">
@@ -123,9 +123,16 @@
             <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href='auth/logout'">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Logout" 
+            href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
         </div>
         <!-- /menu footer buttons -->
     </div>

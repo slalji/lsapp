@@ -7,7 +7,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div xclass="x_panel">
                   <div class="x_title ">
-                    <h2>NBC Agency Transactions</h2>
+                    <h2> {{ getenv('APP_HEADING')}}</h2>
                    
                     <div class="clearfix"></div>
                   </div>

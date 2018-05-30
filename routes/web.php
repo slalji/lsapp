@@ -9,58 +9,8 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/demo', function () {
-    return view('demo');
-});
-/*Route::get('/home', function () {
-    return view('home');
-}); 
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('auth/login', ['uses' => 'Auth\AuthController@getLogin']);
-Route::post('auth/login', ['uses' => 'Auth\AuthController@postLogin']);
-Route::get('auth/logout', ['uses' => 'Auth\AuthController@getLogout']);
-
-Route::post('/home', ['uses' => 'Main\MainController@index']);
-
-
-Route::get('/registration', function () {
-    
-    return view('registration');
-})->name('registration');
-
-
-Route::post('/registrate', 
-    ['uses' => 'Registration\RegistrationController@processRegistrationRequest'])->name('registrate');
-
-
-Auth::routes();
-
-//Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home', 'PagesController@home');
-Route::get('/changePassword','HomeController@showChangePasswordForm');
-Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
-Route::get('/init_nbc', 'PagesController@init_nbc');
-Route::post('/download_nbc', 'PagesController@download_nbc');
-
 */
-Route::get('/home', 'PagesController@home');
-Route::get('/changePassword','Auth\ResetPasswordController@showChangePasswordForm');
-Route::get('/firstlogin','Auth\ResetPasswordController@showFirstLoginForm');
-Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
-Route::get('/init_nbc', 'PagesController@init_nbc');
-Route::post('/download_nbc', 'PagesController@download_nbc');
+
 
 Route::group(['middleware' => 'web'], function () {
     Auth::routes();
@@ -69,7 +19,12 @@ Route::group(['middleware' => 'web'], function () {
               
         return view('auth.login');
     })->name('main');
+    Route::get('/home', 'PagesController@home');
+    Route::get('/changePassword','HomeController@showChangePasswordForm');
+    Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 
+    Route::get('/init_nbc', 'PagesController@init_nbc');
+    Route::post('/download_nbc', 'PagesController@download_nbc');
     Route::get('/author', [
         'uses' => 'AppController@getAuthorPage',
         'as' => 'author',
@@ -82,13 +37,7 @@ Route::group(['middleware' => 'web'], function () {
         'middleware' => 'roles',
         'roles' => ['Author']
     ]);
-    /*Route::get('/home', [
-        'uses' => 'AppController@getIndex',
-        'as' => 'user' ,
-        'middleware' => 'roles',
-        'roles' => ['User', 'Admin', 'Author'] 
-    ]);
-    */
+  
     Route::get('/admin', [
         'uses' => 'AppController@getAdminPage',
         'as' => 'admin',
@@ -101,17 +50,7 @@ Route::group(['middleware' => 'web'], function () {
         'middleware' => 'roles',
         'roles' => ['Admin']
     ]);
-    /*
-    Route::get('/signup', [
-        'uses' => 'AuthController@getSignUpPage',
-        'as' => 'signup'
-    ]);
    
-    Route::post('/signup', [
-        'uses' => 'Auth/RegisterController@create',
-        'as' => 'signup'
-    ]);
-    */
     Route::get('/registration', function () {
     
         return view('registration');
@@ -131,9 +70,15 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/logout', [
         'uses' => 'AuthController@getLogout',
         'as' => 'logout'
-    ]);
-    
-    });
+    ]); 
 
-    Route::get('verify/{email}/{verify_token}','Auth\RegisterController@sendEmailDone')->name('sendEmailDone');
+Route::get('verify/{email}/{verify_token}','Auth\RegisterController@sendEmailDone')->name('sendEmailDone');
+// Password reset routes...
+//Route::post('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.request');
+Route::post('password/reset', 'Auth\ResetPasswordController@postReset')->name('password.reset');
+Route::get('password/reset', 'Auth\ForgotPasswordController@sendForgottenEmailForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendForgottenEmail')->name('password.email');
+Route::get('forgotten/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('showResetForm');
+Route::get('forgotten/{token}','Auth\ForgotController@resetPassword')->name('resetPassword');
 
+});
