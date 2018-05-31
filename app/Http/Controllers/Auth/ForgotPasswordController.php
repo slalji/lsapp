@@ -45,7 +45,7 @@ class ForgotPasswordController extends Controller
          
         $user = User::where('email', '=', $request->email)->firstOrFail();
          if (!$user) return redirect()->back()->withErrors(['error' => '404']);  
-        $token = bcrypt(str_random(20));
+        $token = (str_random(20));
         //create a new token to be sent to the user. 
         DB::table('password_resets')->insert([
             'email' => $request->email,
@@ -54,14 +54,14 @@ class ForgotPasswordController extends Controller
         ]);
         
        Mail::to($request->email)->send(new ForgottenEmail($user,$token)) ;//verifyEmail is in Mail folder
-       
+       return redirect()->back()->with('status','Request sent to your email');
     } 
  public function viewForgottenEmail(){
      return view("forgotten password authentication email sent");
  }
     public function sendForgottenEmailForm()
     {
-        return redirect('auth.passwords.email');
+        return view('auth.passwords.email');
     }
 
     public function sendForgottenEmailDone($token)
