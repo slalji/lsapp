@@ -68,8 +68,7 @@ class ResetPasswordController extends Controller
  
         $validatedData = $request->validate([
             'current-password' => 'required',
-            'new-password' => 'required|string|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/|
-            confirmed',
+            'new-password' => 'required|string|min:6|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|confirmed',
         ]);
  
         //Check Password History
@@ -98,7 +97,7 @@ class ResetPasswordController extends Controller
         //M6%12n34
         //Q@6%12p45
         $ph->save();  
- 
+        //return redirect('home')->with("success","Password changed successfully !");
         return redirect()->back()->with("success","Password changed successfully !");
  
     }

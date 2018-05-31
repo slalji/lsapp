@@ -120,7 +120,7 @@ class RegisterController extends Controller
 
         User::where(['email' => $email, 'verify_token' => $verify_token])->update(['status'=>'1','verify_token' =>NULL]);
         
-        return redirect('auth.changepassword');
+        return view('auth.changepassword');
 
         }
         else

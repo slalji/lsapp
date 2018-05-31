@@ -7,7 +7,8 @@
 <body>
 <h2>Reset your password {{$user['name']}} to the site </h2>
 <br/>
-Verify your account : <a href="{{ route('showResetForm',['token' => $token] ) }}">click here</a>
+Verify your email : <a href="{{url(route('sendForgottenEmailDone', $token, false))}}">click here</a>
+ 
 
 </body>
  

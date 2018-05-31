@@ -85,5 +85,15 @@ class HomeController extends Controller
         return redirect()->back()->with("success","Password changed successfully !");
  
     }
+    /*public function sendView($token)
+    {
+        return $token;
+        $canreset = DB::table('password_resets')
+        ->where('token', $token)->first();
+        if ($canreset){
+            return $canreset;//view('auth.passwords.reset');
+        }
+       return $token;
+    }*/
    
 }

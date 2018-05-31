@@ -73,12 +73,12 @@ Route::group(['middleware' => 'web'], function () {
     ]); 
 
 Route::get('verify/{email}/{verify_token}','Auth\RegisterController@sendEmailDone')->name('sendEmailDone');
+Route::get('password/forgotten/{token}','Auth\RegisterController@canRestPassword')->name('sendForgottenEmailDone');
 // Password reset routes...
-//Route::post('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.request');
-Route::post('password/reset', 'Auth\ResetPasswordController@postReset')->name('password.reset');
+Route::post('password/reset', 'Auth\ForgotPasswordController@resetPassword')->name('password.reset');
 Route::get('password/reset', 'Auth\ForgotPasswordController@sendForgottenEmailForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendForgottenEmail')->name('password.email');
-Route::get('forgotten/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('showResetForm');
-Route::get('forgotten/{token}','Auth\ForgotController@resetPassword')->name('resetPassword');
+Route::get('password/email', 'Auth\ForgotPasswordController@viewForgottenEmail')->name('password.email');
+Route::get('forgotten/{token}', 'Auth\ForgotPasswordController@sendForgottenEmailDone')->name('sendForgottenEmailDone');
 
 });
