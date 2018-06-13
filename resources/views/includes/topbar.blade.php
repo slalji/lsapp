@@ -26,8 +26,9 @@
                         </li>
                         
                         @else
-                        
-                        <li><a class="dropdown-item" href="">Settings</a></li>
+                        <!--
+                        <li><a class="dropdown-item" href="">Settings</a>
+                        </li>
                                     <li><a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -38,12 +39,30 @@
                                         @csrf
                                     </form>
                                     </li>
+                                    <li>
+                                        <a href="changePassword">
+                                        Change Password
+                                        </a>
+                                    </li>
                         </li>
-                        <li>
-                            <a href="changePassword">
-                            Change Password
-                            </a>
-                        </li>
+                        -->
+                        <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-gear"></i></a>
+    <div class="dropdown-menu">
+    <ul>
+      <li><a class="nav dropdown-item" href="changePassword">Change Password</a>
+      
+      <li>
+      <a class="nav dropdown-item" href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+        </a>
+    </ul>
+    </div>
+  </li>
+                       
                         @endif
                     </ul>
         </nav>

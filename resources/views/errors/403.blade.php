@@ -15,6 +15,13 @@
     <link href="{{ asset("css/font-awesome.min.css") }}" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="{{ asset("css/gentelella.min.css") }}" rel="stylesheet">
+     <!-- Bootstrap -->
+     <link href="{{ asset("vendors/bootstrap/dist/css/bootstrap.min.css") }}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="{{ asset("vendors/font-awesome/css/font-awesome.min.css") }}" rel="stylesheet">
+        <!-- Custom Theme Style -->
+        <link href="{{ asset("vendors/gentelella/css/gentelella.css") }}" rel="stylesheet">
+
 </head>
 
 <body class="nav-md">
@@ -24,11 +31,11 @@
         <div class="col-md-12">
             <div class="col-middle">
                 <div class="text-center text-center">
-                    <h1 class="error-number">403</h1>
+                    <h3 class="error-number">403</h3>
                     <h2>Access denied</h2>
                     <p>Full authentication is required to access this resource. <a href="#">Report this?</a>
                     </p>
-                    <div class="mid_center">
+                    <!--<div class="mid_center">
                         <h3>Search</h3>
                         <form>
                             <div class="col-xs-12 form-group pull-right top_search">
@@ -40,7 +47,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -54,6 +61,13 @@
 <script src="{{ asset("js/bootstrap.min.js") }}"></script>
 <!-- Custom Theme Scripts -->
 <script src="{{ asset("js/gentelella.min.js") }}"></script>
+  <!-- jQuery -->
+  <script src="{{ asset("vendors/jquery/dist/jquery.min.js") }}"></script>
+
+ <!-- Bootstrap -->
+ <script src="{{ asset("vendors/bootstrap/dist/js/bootstrap.min.js") }}"></script>
+        <!-- Custom Theme Scripts -->
+        <script src="{{ asset("vendors/gentelella/js/gentelella.min.js") }}"></script>
 
 </body>
 </html>

@@ -15,6 +15,13 @@
     <link href="{{ asset("css/font-awesome.min.css") }}" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="{{ asset("css/gentelella.min.css") }}" rel="stylesheet">
+         <!-- Bootstrap -->
+         <link href="{{ asset("vendors/bootstrap/dist/css/bootstrap.min.css") }}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="{{ asset("vendors/font-awesome/css/font-awesome.min.css") }}" rel="stylesheet">
+        <!-- Custom Theme Style -->
+        <link href="{{ asset("vendors/gentelella/css/gentelella.css") }}" rel="stylesheet">
+
 </head>
 
 <body class="nav-md">
@@ -28,7 +35,7 @@
                     <h2>Sorry but we couldn't find this page</h2>
                     <p>This page you are looking for does not exist <a href="#">Report this?</a>
                     </p>
-                    <div class="mid_center">
+                    <!--<div class="mid_center">
                         <h3>Search</h3>
                         <form>
                             <div class="col-xs-12 form-group pull-right top_search">
@@ -40,7 +47,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -54,6 +61,12 @@
 <script src="{{ asset("js/bootstrap.min.js") }}"></script>
 <!-- Custom Theme Scripts -->
 <script src="{{ asset("js/gentelella.min.js") }}"></script>
+
+ <!-- Bootstrap -->
+ <script src="{{ asset("vendors/bootstrap/dist/js/bootstrap.min.js") }}"></script>
+        <!-- Custom Theme Scripts -->
+        <script src="{{ asset("vendors/gentelella/js/gentelella.min.js") }}"></script>
+
 
 </body>
 </html>

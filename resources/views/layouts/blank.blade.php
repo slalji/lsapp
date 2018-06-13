@@ -107,7 +107,6 @@
 <!-- jQuery Galic Persistant to localstorage -->
 <script src="{{ asset("vendors/garlicjs/dist/garlic.min.js") }}"></script>
 <script src="{{ asset("vendors/custom/custom.js") }}"></script>
-    
 
     </body>
 </html>

@@ -11,7 +11,7 @@
 |
 */
 
-
+Route::post('/transnet','TransnetController@getParams');
 Route::group(['middleware' => 'web'], function () {
     Auth::routes();
 
@@ -81,4 +81,6 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendForgottenEmail'
 Route::get('password/email', 'Auth\ForgotPasswordController@viewForgottenEmail')->name('password.email');
 Route::get('forgotten/{token}', 'Auth\ForgotPasswordController@sendForgottenEmailDone')->name('sendForgottenEmailDone');
 //Route::get('forgotten/{token}', array('uses' => 'ForgotPasswordController@sendForgottenEmailDone'))->name('sendForgottenEmailDone');
+
+
 });

@@ -77,8 +77,10 @@ class PagesController extends Controller
                     $where.=" AND ".$key." like '%" . $val ."%'" ;
                 else if ($key == 'result' && $val !='')
                     $where.=" AND ".$key." like '%" . $val ."%'" ;
-                /*else if ($key == 'download' && $val !='')
-                $download = $val;*/
+               /* else if ($key == 'download' && $val =='yes')
+               {
+                   
+                }*/
             }
              
         
@@ -120,11 +122,11 @@ class PagesController extends Controller
         return $json_data;
     }
     function download_nbc(Request $request){
-    
+   
        
         $sql = "SELECT transactions.id, fulltimestamp, terminal, members.fullname, members.ip_address, utility_type, amount,utility_reference, msisdn, reference, transid, result, message from transactions join members on members.id = transactions.id  ";
         $where = ' WHERE transactions.id = members.id' ;
-        
+       
        if (isset($request->fulltimestamp)){
             $fulltimestamp = $request->fulltimestamp;
             $range = explode('|',$fulltimestamp);		
@@ -133,33 +135,34 @@ class PagesController extends Controller
             $where.=" AND fulltimestamp >= '".$start."' AND fulltimestamp < ('" .$end. "' + INTERVAL 1 DAY) ";
         }
         
-        //if (isset($request->transid)){
+        if (isset($request->transid)){
             $transid = $request->transid;
             $where.=" AND (transid like '%" . $transid ."%' or reference like '%".$transid."%') ";
-        //}		
-       // if (isset($request->util_ref)){
+        }		
+       if (isset($request->util_ref)){
             $util_ref = $request->util_ref;
             $where.=" AND utility_reference like '%" . $util_ref ."%'" ;
-        //}
-        //if (isset($request->result)){
+        }
+       if (isset($request->result)){
             $result = $request->result;
             $where.=" AND result like '%" . $result ."%'" ;
-       // }
+       }
         
         $sql .= $where;   
         
         
         $sql.= " ORDER BY fulltimestamp desc";
-        DB::enableQueryLog();
+        
+        //DB::enableQueryLog();
             $transactions = DB::select( DB::raw($sql) );
-        DB::getQueryLog();
+        //DB::getQueryLog();
         //$columns = DB::getSchemaBuilder()->getColumnListing('transactions');
         $columns = ["transactions.id", "fulltimestamp", "terminal", "fullname","ip_address", "utility_type", "amount","utility_reference", "msisdn", "reference", "transid", "result", "message"];
         
         $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
        
         $csv->insertOne($columns);
-    
+           
      
 
     foreach($transactions as $row) {
@@ -169,7 +172,7 @@ class PagesController extends Controller
         $csv->insertOne($arr);
     }
 
-    $csv->output('download_nbc.csv');
+    return $csv->output('download_nbc.csv');
   
 
 }

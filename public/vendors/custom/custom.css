@@ -1,3 +1,6 @@
 #dynamic-table_filter{
     display: none !important;
 }
+#dynamic-table {
+font-size: 11px;
+}

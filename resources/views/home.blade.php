@@ -1,7 +1,8 @@
 @extends('layouts/blank')
 
 @section('content')
-<script src="./app/js/nbc.js"></script>
+<script src="{{ asset("vendors/custom/nbc.js") }}"></script>
+       
   @if (session('error'))
   <div class="alert alert-danger">
   {{ session('error') }}
@@ -32,7 +33,7 @@
                           <th>Date </i></th>
                           <th>Terminal </i></th>
                           <th>Member Name </i></th>
-                          <th>Address</th>
+                         <!-- <th  class="hidden">Address</th>-->
                           <th>Utility Type </i></th> 
                           <th>Amount </i></th>                        
                           <th>Utility Reference </i></th>
@@ -40,7 +41,7 @@
                           <th>Reference </i></th>
                           <th>TransID </i></th>
                           <th>Result </i></th>
-                          <th xclass="hidden">Message</th>
+                          <!--<th class="hidden">Message</th>-->
                           
                          
                         </tr>
